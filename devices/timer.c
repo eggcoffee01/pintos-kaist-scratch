@@ -53,6 +53,7 @@ timer_calibrate (void) {
 	ASSERT (intr_get_level () == INTR_ON);
 	printf ("Calibrating timer...  ");
 
+
 	/* Approximate loops_per_tick as the largest power-of-two
 	   still less than one timer tick. */
 	loops_per_tick = 1u << 10;
@@ -60,7 +61,7 @@ timer_calibrate (void) {
 		loops_per_tick <<= 1;
 		ASSERT (loops_per_tick != 0);
 	}
-
+	
 	/* Refine the next 8 bits of loops_per_tick. */
 	high_bit = loops_per_tick;
 	for (test_bit = high_bit >> 1; test_bit != high_bit >> 10; test_bit >>= 1)
@@ -90,11 +91,14 @@ timer_elapsed (int64_t then) {
 /* Suspends execution for approximately TICKS timer ticks. */
 void
 timer_sleep (int64_t ticks) {
-	int64_t start = timer_ticks ();
-
 	ASSERT (intr_get_level () == INTR_ON);
-	while (timer_elapsed (start) < ticks)
-		thread_yield ();
+	enum intr_level old_level = intr_disable ();
+	
+	int64_t start = timer_ticks ();
+	if(0 < ticks)
+		thread_sleep(start + ticks);
+
+	intr_set_level (old_level);
 }
 
 /* Suspends execution for approximately MS milliseconds. */
@@ -126,6 +130,18 @@ static void
 timer_interrupt (struct intr_frame *args UNUSED) {
 	ticks++;
 	thread_tick ();
+	thread_awake ();
+	
+	if(thread_mlfqs){
+		increase_recent_cpu();
+		if(timer_ticks() % 4 == 0){
+			all_thread_priority();
+		}
+		if(timer_ticks() % TIMER_FREQ == 0){
+			set_load_avg();
+			all_thread_recent_cpu();
+		}
+	}
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
@@ -136,6 +152,7 @@ too_many_loops (unsigned loops) {
 	int64_t start = ticks;
 	while (ticks == start)
 		barrier ();
+
 
 	/* Run LOOPS loops. */
 	start = ticks;
