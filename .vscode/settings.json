@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "palloc.h": "c",
+        "file.h": "c",
+        "mmu.h": "c",
+        "stdlib.h": "c",
+        "process.h": "c",
+        "debug.h": "c",
+        "stdio.h": "c",
+        "malloc.h": "c",
+        "*.inc": "c"
+    }
+}

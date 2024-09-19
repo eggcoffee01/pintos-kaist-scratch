@@ -5,6 +5,7 @@
 #include <list.h>
 #include <stdint.h>
 #include "threads/interrupt.h"
+#include "threads/synch.h"
 #ifdef VM
 #include "vm/vm.h"
 #endif
@@ -22,7 +23,7 @@ enum thread_status {
    You can redefine this to whatever type you like. */
 typedef int tid_t;
 #define TID_ERROR ((tid_t) -1)          /* Error value for tid_t. */
-
+#define maxfd 30
 /* Thread priorities. */
 #define PRI_MIN 0                       /* Lowest priority. */
 #define PRI_DEFAULT 31                  /* Default priority. */
@@ -91,14 +92,33 @@ struct thread {
 	enum thread_status status;          /* Thread state. */
 	char name[16];                      /* Name (for debugging purposes). */
 	int priority;                       /* Priority. */
-
+	int original_priority;
+	int64_t tick; //for wakeup
 	/* Shared between thread.c and synch.c. */
+	int nice;
+	int recent_cpu;
+	struct lock *lock;
+	struct list donate_list;
+	struct list_elem donate_elem;
+	struct list_elem all_elem;
 	struct list_elem elem;              /* List element. */
-
-#ifdef USERPROG
+	
+// #ifdef USERPROG
 	/* Owned by userprog/process.c. */
 	uint64_t *pml4;                     /* Page map level 4 */
-#endif
+	int exit_status;
+	bool is_exit;
+	struct thread *parent;
+	struct file *exec_file;
+	struct intr_frame f;
+	struct list child_list;
+	struct list_elem child_elem;
+	struct semaphore fork_sema;
+	struct semaphore wait_sema;
+	struct semaphore synch_sema;
+	struct file* fdt[maxfd];
+
+// #endif
 #ifdef VM
 	/* Table for whole virtual memory owned by thread. */
 	struct supplemental_page_table spt;
@@ -142,5 +162,24 @@ int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
 void do_iret (struct intr_frame *tf);
+
+void thread_sleep(int64_t tick);
+
+void thread_awake();
+
+bool cmp_thread_tick(const struct list_elem *a, const struct list_elem *b, void *aux);
+bool cmp_thread_priority(const struct list_elem *a, const struct list_elem *b, void *aux);
+bool max_thread_priority(const struct list_elem *a, const struct list_elem *b, void *aux);
+bool max_donated_priority(const struct list_elem *a, const struct list_elem *b, void *aux);
+bool max_cond_priority(const struct list_elem *a, const struct list_elem *b, void *aux);
+
+void all_thread_priority();
+void all_thread_recent_cpu();
+void increase_recent_cpu();
+void set_priority(struct thread *t);
+void set_recent_cpu(struct thread *t);
+void set_load_avg();
+
+void thread_preempt();
 
 #endif /* threads/thread.h */

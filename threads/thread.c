@@ -439,9 +439,24 @@ init_thread (struct thread *t, const char *name, int priority) {
 	t->nice = 0;
 	t->recent_cpu = 0;
 	list_init(&t->donate_list);
-	
 	if(name != "idle")
 		list_push_back(&all_list, &t->all_elem);
+
+	t->exec_file = NULL;
+	t->exit_status = 0;
+	t->is_exit = false;
+	if(name != "main"){
+		t->parent = thread_current();
+		list_push_back(&thread_current()->child_list, &t->child_elem);
+	}
+	list_init(&t->child_list);
+	sema_init(&t->fork_sema, 0);
+	sema_init(&t->wait_sema, 0);
+	sema_init(&t->synch_sema, 0);
+	for(int i = 0; i < maxfd; i++){
+		t->fdt[i] = NULL;
+	}
+
 
 	t->magic = THREAD_MAGIC;
 }
@@ -485,6 +500,7 @@ do_iret (struct intr_frame *tf) {
 			"addq $32, %%rsp\n"
 			"iretq"
 			: : "g" ((uint64_t) tf) : "memory");
+			
 }
 
 /* Switching the thread by activating the new thread's page
