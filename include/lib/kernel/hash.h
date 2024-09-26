@@ -61,7 +61,7 @@ struct hash {
 	struct list *buckets;       /* Array of `bucket_cnt' lists. */
 	hash_hash_func *hash;       /* Hash function. */
 	hash_less_func *less;       /* Comparison function. */
-	void *aux;                  /* Auxiliary data for `hash' and `less'. */
+	void *aux;                 /* Auxiliary data for `hash' and `less'. */
 };
 
 /* A hash table iterator. */

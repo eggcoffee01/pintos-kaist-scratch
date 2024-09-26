@@ -312,7 +312,7 @@ palloc_free_multiple (void *pages, size_t page_cnt) {
 		pool = &user_pool;
 	else
 		NOT_REACHED ();
-
+	
 	page_idx = pg_no (pages) - pg_no (pool->base);
 
 #ifndef NDEBUG

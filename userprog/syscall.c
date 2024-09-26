@@ -15,10 +15,10 @@
 #include "string.h"
 #include "userprog/process.h"
 #include "threads/palloc.h"
+#include "vm/vm.h"
 
 
 typedef int pid_t;
-struct lock filesys_lock;
 
 void syscall_entry (void);
 void syscall_handler (struct intr_frame *);
@@ -64,8 +64,6 @@ syscall_init (void) {
 	 * mode stack. Therefore, we masked the FLAG_FL. */
 	write_msr(MSR_SYSCALL_MASK,
 			FLAG_IF | FLAG_TF | FLAG_DF | FLAG_IOPL | FLAG_AC | FLAG_NT);
-
-	lock_init(&filesys_lock);
 }
 
 /* The main system call interface */
@@ -176,7 +174,7 @@ int filesize (int fd){
 int read (int fd, void *buffer, unsigned size){
 	if(check_fd(fd)) return -1;
 	check_ptr(buffer);
-
+	
 	if(fd == 0){
 		for(int i = 0; i < size; i++){
 			((char*)buffer)[i] = input_getc();
@@ -237,7 +235,9 @@ struct file *get_file(int fd){
 }
 
 void check_ptr(void *ptr){
-	if(ptr == NULL || !is_user_vaddr(ptr) || pml4_get_page(thread_current()->pml4, ptr) == NULL) exit(-1);
+	if(ptr == NULL || !is_user_vaddr(ptr) ) exit(-1);
+	// || spt_find_page(&thread_current()->spt, pg_round_down(ptr)) == NULL
+
 }
 
 bool check_fd(int fd){

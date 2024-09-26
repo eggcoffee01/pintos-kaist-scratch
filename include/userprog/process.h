@@ -2,6 +2,15 @@
 #define USERPROG_PROCESS_H
 
 #include "threads/thread.h"
+#ifdef VM
+struct load_aux{
+    struct file *file;
+    size_t page_read_bytes;
+    size_t page_zero_bytes;
+    off_t ofs;
+};
+#endif
+
 
 tid_t process_create_initd (const char *file_name);
 tid_t process_fork (const char *name, struct intr_frame *if_);
