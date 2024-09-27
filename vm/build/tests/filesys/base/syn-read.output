@@ -1,0 +1,64 @@
+Kernel command line: -q -f put syn-read put child-syn-read run syn-read
+0 ~ 9fc00 1
+100000 ~ 13e0000 1
+Pintos booting with: 
+	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
+	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 225 sector (112 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
+Formatting file system...done.
+Boot complete.
+Putting 'syn-read' into the file system...
+Putting 'child-syn-read' into the file system...
+Executing 'syn-read':
+(syn-read) begin
+(syn-read) create "data"
+(syn-read) open "data"
+(syn-read) write "data"
+(syn-read) close "data"
+(syn-read) exec child 1 of 10: "child-syn-read 0"
+(syn-read) exec child 2 of 10: "child-syn-read 1"
+(syn-read) exec child 3 of 10: "child-syn-read 2"
+(syn-read) exec child 4 of 10: "child-syn-read 3"
+child-syn-read: dying due to interrupt 0x03 (#BP Breakpoint Exception).
+Interrupt 0x03 (#BP Breakpoint Exception) at rip=400f64
+ cr2=0000000000400f63 error=               0
+rax 0000800425300000 rbx 0000004747feb8ff rcx ffffffffffffff00 rdx 0000800424be6000
+rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
+rip 0000000000400f64 r8 0000000424be7000  r9 0000800420ab1400 r10 0000800424be7000
+r11 0000014747ff6400 r12 0000800424be2000 r13 0000800422ac4800 r14 0000000000025300
+r15 0000800420a42400 rflags 00000202
+es: 001b ds: 001b cs: 0023 ss: 001b
+(syn-read) exec child 5 of 10: "child-syn-read 4"
+(syn-read) exec child 6 of 10: "child-syn-read 5"
+(syn-read) exec child 7 of 10: "child-syn-read 6"
+(syn-read) exec child 8 of 10: "child-syn-read 7"
+child-syn-read: dying due to interrupt 0x03 (#BP Breakpoint Exception).
+Interrupt 0x03 (#BP Breakpoint Exception) at rip=400f64
+ cr2=0000000000400f63 error=               0
+rax 0000800425800000 rbx 0000004747feb8ff rcx ffffffffffffff00 rdx 0000800424ee6000
+rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
+rip 0000000000400f64 r8 0000000424ee7000  r9 0000800420ab1400 r10 0000800424ee7000
+r11 0000014747ff6800 r12 0000800424ee2000 r13 0000800422ac4800 r14 0000000000025800
+r15 0000800420a42400 rflags 00000202
+es: 001b ds: 001b cs: 0023 ss: 001b
+(syn-read) exec child 9 of 10: "child-syn-read 8"
+(syn-read) exec child 10 of 10: "child-syn-read 9"
+(syn-read) wait for child 1 of 10 returned 0 (expected 0)
+(syn-read) wait for child 2 of 10 returned 0 (expected 1)
+(syn-read) wait for child 2 of 10 returned 0 (expected 1): FAILED
+syn-read: exit(1)
+Execution of 'syn-read' complete.
+Timer: 64 ticks
+Thread: 35 idle ticks, 25 kernel ticks, 4 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 153 reads, 504 writes
+hd1:0: 225 reads, 0 writes
+hd1:1: 0 reads, 0 writes
+Console: 2935 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

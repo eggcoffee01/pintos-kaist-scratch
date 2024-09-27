@@ -1,0 +1,42 @@
+Kernel command line: -q -f put page-merge-seq put child-sort run page-merge-seq
+0 ~ 9fc00 1
+100000 ~ 13e0000 1
+Pintos booting with: 
+	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
+	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 216 sector (108 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
+Formatting file system...done.
+Boot complete.
+Putting 'page-merge-seq' into the file system...
+Putting 'child-sort' into the file system...
+Executing 'page-merge-seq':
+(page-merge-seq) begin
+(page-merge-seq) init
+(page-merge-seq) sort chunk 0
+(page-merge-seq) child[0] exec
+child-sort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
+Interrupt 0x03 (#BP Breakpoint Exception) at rip=400cfe
+ cr2=0000000000400cfd error=               0
+rax 0000800427500000 rbx 00000000404bcbff rcx ffffffffffffff00 rdx 00008004263ea000
+rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
+rip 0000000000400cfe r8 00000004263e7000  r9 0000800420ab1400 r10 00008004263e7000
+r11 0000012430780000 r12 00008004263e2000 r13 0000800422ac4800 r14 0000000000027500
+r15 0000800420a42400 rflags 00000202
+es: 001b ds: 001b cs: 0023 ss: 001b
+(page-merge-seq) child[0] wait fail: FAILED
+page-merge-seq: exit(1)
+Execution of 'page-merge-seq' complete.
+Timer: 73 ticks
+Thread: 38 idle ticks, 27 kernel ticks, 8 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 147 reads, 734 writes
+hd1:0: 216 reads, 0 writes
+hd1:1: 0 reads, 0 writes
+Console: 1732 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

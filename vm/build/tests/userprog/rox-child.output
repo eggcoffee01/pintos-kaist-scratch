@@ -1,0 +1,43 @@
+Kernel command line: -q -f put rox-child put child-rox run rox-child
+0 ~ 9fc00 1
+100000 ~ 13e0000 1
+Pintos booting with: 
+	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
+	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 220 sector (110 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
+Formatting file system...done.
+Boot complete.
+Putting 'rox-child' into the file system...
+Putting 'child-rox' into the file system...
+Executing 'rox-child':
+(rox-child) begin
+(rox-child) open "child-rox"
+(rox-child) read "child-rox"
+(rox-child) write "child-rox"
+(rox-child) exec "child-rox 1"
+child-rox: dying due to interrupt 0x03 (#BP Breakpoint Exception).
+Interrupt 0x03 (#BP Breakpoint Exception) at rip=400e4f
+ cr2=0000000000400e4e error=               0
+rax 0000800425400000 rbx 00000000404560ff rcx ffffffffffffff00 rdx 0000800424ce6000
+rsp 000000004747ffd0 rbp 0000800422c00000 rsi 000000004747ffd8 rdi 0000000000000002
+rip 0000000000400e4f r8 0000000424ce7000  r9 0000800420ab1400 r10 0000800424ce7000
+r11 0000012430780000 r12 0000800424ce2000 r13 0000800422ac4800 r14 0000000000025400
+r15 0000800420a42400 rflags 00000202
+es: 001b ds: 001b cs: 0023 ss: 001b
+(rox-child) wait for child: FAILED
+rox-child: exit(1)
+Execution of 'rox-child' complete.
+Timer: 63 ticks
+Thread: 39 idle ticks, 22 kernel ticks, 2 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 121 reads, 479 writes
+hd1:0: 220 reads, 0 writes
+hd1:1: 0 reads, 0 writes
+Console: 1721 characters output
+Keyboard: 0 keys pressed
+Exception: 0 page faults
+Powering off...

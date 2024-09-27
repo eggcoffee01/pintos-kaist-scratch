@@ -8,6 +8,8 @@
         "debug.h": "c",
         "stdio.h": "c",
         "malloc.h": "c",
-        "*.inc": "c"
+        "*.inc": "c",
+        "vm.h": "c",
+        "stddef.h": "c"
     }
 }
