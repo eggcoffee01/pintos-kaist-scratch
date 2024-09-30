@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "threads/palloc.h"
 #include "kernel/hash.h"
+#include "threads/mmu.h"
 
 enum vm_type {
 	/* page not initialized */
@@ -28,6 +29,7 @@ enum vm_type {
 #include "vm/uninit.h"
 #include "vm/anon.h"
 #include "vm/file.h"
+#include "threads/malloc.h"
 #ifdef EFILESYS
 #include "filesys/page_cache.h"
 #endif
@@ -102,6 +104,7 @@ void anon_copy(struct page *p);
 void file_copy(struct page *p);
 
 void supplemental_page_table_kill (struct supplemental_page_table *spt);
+void spt_kill(struct hash_elem *e,void *aux UNUSED);
 struct page *spt_find_page (struct supplemental_page_table *spt,
 		void *va);
 bool spt_insert_page (struct supplemental_page_table *spt, struct page *page);

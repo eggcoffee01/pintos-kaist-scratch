@@ -271,7 +271,6 @@ process_exit (void) {
 	if(curr->is_exit)
 		printf("%s: exit(%d)\n", curr->name, curr->exit_status);
 
-
 	for(int i = 0; i < maxfd; i++){
 		if(curr->fdt[i] != NULL)
 			file_close(curr->fdt[i]);

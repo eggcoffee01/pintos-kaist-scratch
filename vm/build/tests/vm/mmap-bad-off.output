@@ -4,7 +4,7 @@ Kernel command line: -q -f put mmap-bad-off put large.txt run mmap-bad-off
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  419,020,800 loops/s.
+Calibrating timer...  419,430,400 loops/s.
 hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 4,017 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -17,16 +17,21 @@ Executing 'mmap-bad-off':
 (mmap-bad-off) begin
 (mmap-bad-off) open "large.txt"
 (mmap-bad-off) try to mmap invalid offset
-(mmap-bad-off) try to mmap invalid offset: FAILED
-mmap-bad-off: exit(1)
-Execution of 'mmap-bad-off' complete.
-Timer: 152 ticks
-Thread: 98 idle ticks, 53 kernel ticks, 1 user ticks
+Kernel PANIC at ../../vm/file.c:72 in do_mmap(): assertion `offset % PGSIZE == 0' failed.
+Call stack: 0x8004218334 0x8004221e1b 0x800421dc8a 0x800421d561 0x800421d1d2 0x400186 0x400c5c 0x400ca5 0Interrupt 0x0d (#GP General Protection Exception) at rip=800421536e
+ cr2=00000000004037bc error=               0
+rax 0000800424230800 rbx 0000000010000000 rcx 00000080040b8000 rdx 00000000000003d4
+rsp 0000008004242dc0 rbp 0000008004242dd0 rsi 000000000000990f rdi 0000000000000000
+rip 000000800421536e r8 0000008004242cd8  r9 000000800421b7ad r10 0000000000000003
+r11 0000000000000202 r12 000000800421d293 r13 0000800424301800 r14 00008004242f1000
+r15 0000800422ae1000 rflags 00000006
+es: 001b ds: 001b cs: 0008 ss: 0010
+Kernel PANIC recursion at ../../userprog/exception.c:97 in kill().
+Timer: 165 ticks
+Thread: 100 idle ticks, 64 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 111 reads, 8072 writes
 hd1:0: 4017 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1139 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off...
+Console: 1813 characters output
+Key

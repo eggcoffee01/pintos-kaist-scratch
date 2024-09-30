@@ -1,2 +1,14 @@
 FAIL
-run: open "sample.txt" for verification: FAILED
+Kernel panic in run: PANIC at ../../vm/uninit.c:30 in uninit_new(): assertion `page != NULL' failed.
+Call stack: 0x8004218334 0x80042219bd 0x8004221112 0x8004221ee1 0x800421dc8a 0x800421d561 0x800421d1d2 0x4001de 0x400cf2 0x400d3b
+Translation of call stack:
+0x0000008004218334: debug_panic (lib/kernel/debug.c:32)
+0x00000080042219bd: uninit_new (vm/uninit.c:32)
+0x0000008004221112: vm_alloc_page_with_initializer (vm/vm.c:75)
+0x0000008004221ee1: do_mmap (vm/file.c:86)
+0x000000800421dc8a: mmap (userprog/syscall.c:241)
+0x000000800421d561: syscall_handler (userprog/syscall.c:121)
+0x000000800421d1d2: no_sti (userprog/syscall-entry.o:?)
+0x00000000004001de: (unknown)
+0x0000000000400cf2: (unknown)
+0x0000000000400d3b: (unknown)

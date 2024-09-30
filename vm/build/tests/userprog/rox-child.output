@@ -19,25 +19,22 @@ Executing 'rox-child':
 (rox-child) read "child-rox"
 (rox-child) write "child-rox"
 (rox-child) exec "child-rox 1"
-child-rox: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400e4f
- cr2=0000000000400e4e error=               0
-rax 0000800425400000 rbx 00000000404560ff rcx ffffffffffffff00 rdx 0000800424ce6000
-rsp 000000004747ffd0 rbp 0000800422c00000 rsi 000000004747ffd8 rdi 0000000000000002
-rip 0000000000400e4f r8 0000000424ce7000  r9 0000800420ab1400 r10 0000800424ce7000
-r11 0000012430780000 r12 0000800424ce2000 r13 0000800422ac4800 r14 0000000000025400
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-(rox-child) wait for child: FAILED
-rox-child: exit(1)
+(child-rox) begin
+(child-rox) try to write "child-rox"
+(child-rox) try to write "child-rox"
+(child-rox) end
+child-rox: exit(12)
+(rox-child) write "child-rox"
+(rox-child) end
+rox-child: exit(0)
 Execution of 'rox-child' complete.
-Timer: 63 ticks
-Thread: 39 idle ticks, 22 kernel ticks, 2 user ticks
+Timer: 64 ticks
+Thread: 35 idle ticks, 27 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 121 reads, 479 writes
+hd0:1: 176 reads, 480 writes
 hd1:0: 220 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1721 characters output
+Console: 1284 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

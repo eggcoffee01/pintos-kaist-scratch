@@ -148,6 +148,8 @@ vm_get_frame (void) {
 /* Growing the stack. */
 static void
 vm_stack_growth (void *addr UNUSED) {
+	vm_alloc_page_with_initializer(VM_ANON | VM_MARKER_0, addr, true, NULL, NULL);
+	vm_claim_page(addr);
 }
 
 /* Handle the fault on write_protected page */
@@ -161,10 +163,16 @@ vm_try_handle_fault (struct intr_frame *f UNUSED, void *addr UNUSED,
 		bool user UNUSED, bool write UNUSED, bool not_present UNUSED) {
 	struct supplemental_page_table *spt UNUSED = &thread_current ()->spt;
 	struct page *page = NULL;
-	/* TODO: Validate the fault */
-	/* TODO: Your code goes here */
+	uintptr_t rsp = user ? f->rsp : thread_current()->rsp;
 	page = spt_find_page(spt, addr);
-	if(page == NULL) return false;
+	if(page == NULL) {
+		if(pg_round_down(rsp) <= addr && is_user_vaddr(addr) && addr >= (USER_STACK - 1048576) && addr <= USER_STACK){
+			vm_stack_growth(addr);
+			return true;
+		}
+	return false;
+	}
+	if(write && !page->writable) return false;
 
 	return vm_do_claim_page (page);
 }
@@ -245,10 +253,11 @@ void uninit_copy(struct page *p){
 	vm_alloc_page_with_initializer(type, upage, writable, init, aux);
 }
 void anon_copy(struct page *p){
+	enum vm_type type = p->anon.type;
 	void *upage = p->va;
 	bool writable = p->writable;
 	
-	vm_alloc_page_with_initializer(VM_ANON, upage, writable, NULL, NULL);
+	vm_alloc_page_with_initializer(type, upage, writable, NULL, NULL);
 	struct page *newpage = spt_find_page(&thread_current()->spt, upage);
 	vm_do_claim_page(newpage);
 	memcpy(newpage->frame->kva, p->frame->kva, PGSIZE);
@@ -270,29 +279,7 @@ supplemental_page_table_kill (struct supplemental_page_table *spt UNUSED) {
 
 void spt_kill(struct hash_elem *e,void *aux UNUSED){
 	struct page *p = hash_entry(e, struct page, hash_elem);
-	enum vm_type type = VM_TYPE(p->operations->type);
-	switch (type)
-	{
-		case VM_UNINIT:
-			uninit_kill(p);
-			break;
-		case VM_ANON:
-			anon_kill(p);
-			break;
-		case VM_FILE:
-			/* code */
-			break;
-
-		default:
-			break;
-	}
-}
-
-void uninit_kill(struct page *p){
-	
-}
-void anon_kill(struct page *p){
-	
+	vm_dealloc_page(p);
 }
 
 unsigned page_hash (const struct hash_elem *p_, void *aux UNUSED){

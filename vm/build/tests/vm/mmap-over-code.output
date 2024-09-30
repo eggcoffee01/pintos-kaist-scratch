@@ -17,16 +17,16 @@ Executing 'mmap-over-code':
 (mmap-over-code) begin
 (mmap-over-code) open "sample.txt"
 (mmap-over-code) try to mmap over code segment
-(mmap-over-code) try to mmap over code segment: FAILED
-mmap-over-code: exit(1)
+(mmap-over-code) end
+mmap-over-code: exit(0)
 Execution of 'mmap-over-code' complete.
-Timer: 60 ticks
-Thread: 36 idle ticks, 24 kernel ticks, 0 user ticks
+Timer: 58 ticks
+Thread: 32 idle ticks, 25 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 111 reads, 250 writes
 hd1:0: 106 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1164 characters output
+Console: 1130 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

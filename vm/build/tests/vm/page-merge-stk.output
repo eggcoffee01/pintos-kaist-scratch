@@ -4,7 +4,7 @@ Kernel command line: -q -f put page-merge-stk put child-qsort run page-merge-stk
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  419,020,800 loops/s.
+Calibrating timer...  422,707,200 loops/s.
 hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 224 sector (112 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -18,86 +18,30 @@ Executing 'page-merge-stk':
 (page-merge-stk) init
 (page-merge-stk) sort chunk 0
 (page-merge-stk) sort chunk 1
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 0000800427600000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 00008004264e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 00000004264e7000  r9 0000800420ab1400 r10 00008004264e7000
-r11 0000012430780000 r12 00008004264e2000 r13 0000800422ac4800 r14 0000000000027600
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 2
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 0000800429300000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 00008004267e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 00000004267e7000  r9 0000800420ab1400 r10 00008004267e7000
-r11 0000012430780000 r12 00008004267e2000 r13 0000800422ac4800 r14 0000000000029300
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 3
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 000080042b200000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 00008004279e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 00000004279e7000  r9 0000800420ab1400 r10 00008004279e7000
-r11 0000012430780000 r12 00008004279e2000 r13 0000800422ac4800 r14 000000000002b200
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 4
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 000080042d000000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 00008004297e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 00000004297e7000  r9 0000800420ab1400 r10 00008004297e7000
-r11 0000012430780000 r12 00008004297e2000 r13 0000800422ac4800 r14 000000000002d000
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 5
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 000080042ed00000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 000080042c1e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 000000042c1e7000  r9 0000800420ab1400 r10 000080042c1e7000
-r11 0000012430780000 r12 000080042c1e2000 r13 0000800422ac4800 r14 000000000002ed00
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 6
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 0000800430b00000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 000080042dfe6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 000000042dfe7000  r9 0000800420ab1400 r10 000080042dfe7000
-r11 0000012430780000 r12 000080042dfe2000 r13 0000800422ac4800 r14 0000000000030b00
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) sort chunk 7
-child-qsort: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=401089
- cr2=0000000000401088 error=               0
-rax 0000800432800000 rbx 0000004747feb0ff rcx ffffffffffffff00 rdx 000080042f0e6000
-rsp 000000004747ffc8 rbp 0000800422c00000 rsi 000000004747ffd0 rdi 0000000000000002
-rip 0000000000401089 r8 000000042f0e7000  r9 0000800420ab1400 r10 000080042f0e7000
-r11 0000012430780000 r12 000080042f0e2000 r13 0000800422ac4800 r14 0000000000032800
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+child-qsort: exit(72)
 (page-merge-stk) wait for child 0
-(page-merge-stk) wait for child 0: FAILED
+(page-merge-stk) open "buf0": FAILED
 page-merge-stk: exit(1)
 Execution of 'page-merge-stk' complete.
-Timer: 129 ticks
-Thread: 61 idle ticks, 29 kernel ticks, 39 user ticks
+Timer: 182 ticks
+Thread: 79 idle ticks, 35 kernel ticks, 68 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 441 reads, 4678 writes
+hd0:1: 2457 reads, 6470 writes
 hd1:0: 224 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 5418 characters output
+Console: 1522 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

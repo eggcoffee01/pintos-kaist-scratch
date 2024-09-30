@@ -15,106 +15,36 @@ Putting 'swap-fork' into the file system...
 Putting 'child-swap' into the file system...
 Executing 'swap-fork':
 (swap-fork) begin
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 0000800428800000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 0000800426ae6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 0000000426ae7000  r9 0000800420ab1400 r10 0000800426ae7000
-r11 00000124d0780000 r12 0000800426ae2000 r13 0000800422ac4800 r14 0000000000028800
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 0000800431000000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 000080042dce6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 000000042dce7000  r9 0000800420ab1400 r10 000080042dce7000
-r11 00000124d0780000 r12 000080042dce2000 r13 0000800422ac4800 r14 0000000000031000
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 0000800434400000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 00008004302e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 00000004302e7000  r9 0000800420ab1400 r10 00008004302e7000
-r11 00000124d0780000 r12 00008004302e2000 r13 0000800422ac4800 r14 0000000000034400
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 000080042f100000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 000080042afe6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 000000042afe7000  r9 0000800420ab1400 r10 000080042afe7000
-r11 00000124d0780000 r12 000080042afe2000 r13 0000800422ac4800 r14 000000000002f100
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 000080042d700000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 000080042a4e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 000000042a4e7000  r9 0000800420ab1400 r10 000080042a4e7000
-r11 00000124d0780000 r12 000080042a4e2000 r13 0000800422ac4800 r14 000000000002d700
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 0000800435d00000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 000080042f5e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 000000042f5e7000  r9 0000800420ab1400 r10 000080042f5e7000
-r11 00000124d0780000 r12 000080042f5e2000 r13 0000800422ac4800 r14 0000000000035d00
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x0d (#GP General Protection Exception).
-Interrupt 0x0d (#GP General Protection Exception) at rip=400c78
- cr2=0000000000400c78 error=               0
-rax 0000800432900000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 000080042f6e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c78 r8 000000042f6e7000  r9 0000800420ab1400 r10 000080042f6e7000
-r11 00000124d0780000 r12 000080042f6e2000 r13 0000800422ac4800 r14 0000000000032900
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x0d (#GP General Protection Exception).
-Interrupt 0x0d (#GP General Protection Exception) at rip=400c78
- cr2=0000000000400c78 error=               0
-rax 000080042bd00000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 00008004289e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c78 r8 00000004289e7000  r9 0000800420ab1400 r10 00008004289e7000
-r11 00000124d0780000 r12 00008004289e2000 r13 0000800422ac4800 r14 000000000002bd00
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x0d (#GP General Protection Exception).
-Interrupt 0x0d (#GP General Protection Exception) at rip=400c78
- cr2=0000000000400c78 error=               0
-rax 000080042a300000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 0000800426fe6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c78 r8 0000000426fe7000  r9 0000800420ab1400 r10 0000800426fe7000
-r11 00000124d0780000 r12 0000800426fe2000 r13 0000800422ac4800 r14 000000000002a300
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
-child-swap: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c79
- cr2=0000000000400c78 error=               0
-rax 0000800437800000 rbx 000000004043b0ff rcx ffffffffffffff00 rdx 00008004345e6000
-rsp 000000004747ffd8 rbp 0000800422c00000 rsi 000000004747ffe0 rdi 0000000000000001
-rip 0000000000400c79 r8 00000004345e7000  r9 0000800420ab1400 r10 00008004345e7000
-r11 00000124d0780000 r12 00008004345e2000 r13 0000800422ac4800 r14 0000000000037800
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
+(child-swap) begin
+child-swap: exit(0)
 (swap-fork) end
 swap-fork: exit(0)
 Execution of 'swap-fork' complete.
-Timer: 169 ticks
-Thread: 105 idle ticks, 53 kernel ticks, 11 user ticks
+Timer: 192 ticks
+Thread: 112 idle ticks, 47 kernel ticks, 33 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 185 reads, 8276 writes
+hd0:1: 575 reads, 8276 writes
 hd1:0: 4119 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 6836 characters output
+Console: 1408 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

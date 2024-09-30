@@ -4,7 +4,7 @@ Kernel command line: -q -f put multi-child-fd put sample.txt put child-close run
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  420,249,600 loops/s.
+Calibrating timer...  418,611,200 loops/s.
 hd0:0: detected 329 sector (164 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 220 sector (110 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -17,27 +17,22 @@ Putting 'child-close' into the file system...
 Executing 'multi-child-fd':
 (multi-child-fd) begin
 (multi-child-fd) open "sample.txt"
-child-close: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400c48
- cr2=0000000000400c47 error=               0
-rax 0000800425400000 rbx 0000004747ff08ff rcx ffffffffffffff00 rdx 0000800424ce6000
-rsp 000000004747ffd0 rbp 0000800422c00000 rsi 000000004747ffd8 rdi 0000000000000002
-rip 0000000000400c48 r8 0000000424ce7000  r9 0000800420ab1400 r10 0000800424ce7000
-r11 0000012430780000 r12 0000800424ce2000 r13 0000800422ac4800 r14 0000000000025400
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
+(child-close) begin
+(child-close) verified contents of "sample.txt"
+(child-close) end
+child-close: exit(0)
 (multi-child-fd) wait(exec()) = 0
 (multi-child-fd) verified contents of "sample.txt"
 (multi-child-fd) end
 multi-child-fd: exit(0)
 Execution of 'multi-child-fd' complete.
-Timer: 75 ticks
-Thread: 36 idle ticks, 37 kernel ticks, 2 user ticks
+Timer: 65 ticks
+Thread: 40 idle ticks, 23 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 158 reads, 488 writes
+hd0:1: 204 reads, 488 writes
 hd1:0: 220 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1809 characters output
+Console: 1338 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

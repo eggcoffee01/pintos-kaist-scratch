@@ -20,42 +20,44 @@ Executing 'syn-write':
 (syn-write) exec child 2 of 10: "child-syn-wrt 1"
 (syn-write) exec child 3 of 10: "child-syn-wrt 2"
 (syn-write) exec child 4 of 10: "child-syn-wrt 3"
-child-syn-wrt: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400f5c
- cr2=0000000000400f5b error=               0
-rax 0000800425300000 rbx 0000004747feb8ff rcx ffffffffffffff00 rdx 0000800424be6000
-rsp 000000004747ffd0 rbp 0000800422c00000 rsi 000000004747ffd8 rdi 0000000000000002
-rip 0000000000400f5c r8 0000000424be7000  r9 0000800420ab1400 r10 0000800424be7000
-r11 0000014747ff6400 r12 0000800424be2000 r13 0000800422ac4800 r14 0000000000025300
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
 (syn-write) exec child 5 of 10: "child-syn-wrt 4"
 (syn-write) exec child 6 of 10: "child-syn-wrt 5"
 (syn-write) exec child 7 of 10: "child-syn-wrt 6"
 (syn-write) exec child 8 of 10: "child-syn-wrt 7"
-child-syn-wrt: dying due to interrupt 0x03 (#BP Breakpoint Exception).
-Interrupt 0x03 (#BP Breakpoint Exception) at rip=400f5c
- cr2=0000000000400f5b error=               0
-rax 0000800425900000 rbx 0000004747feb8ff rcx ffffffffffffff00 rdx 0000800424ee6000
-rsp 000000004747ffd0 rbp 0000800422c00000 rsi 000000004747ffd8 rdi 0000000000000002
-rip 0000000000400f5c r8 0000000424ee7000  r9 0000800420ab1400 r10 0000800424ee7000
-r11 0000014747ff6800 r12 0000800424ee2000 r13 0000800422ac4800 r14 0000000000025900
-r15 0000800420a42400 rflags 00000202
-es: 001b ds: 001b cs: 0023 ss: 001b
 (syn-write) exec child 9 of 10: "child-syn-wrt 8"
 (syn-write) exec child 10 of 10: "child-syn-wrt 9"
+child-syn-wrt: exit(0)
 (syn-write) wait for child 1 of 10 returned 0 (expected 0)
-(syn-write) wait for child 2 of 10 returned 0 (expected 1)
-(syn-write) wait for child 2 of 10 returned 0 (expected 1): FAILED
-syn-write: exit(1)
+child-syn-wrt: exit(3)
+child-syn-wrt: exit(2)
+child-syn-wrt: exit(6)
+child-syn-wrt: exit(5)
+child-syn-wrt: exit(4)
+child-syn-wrt: exit(8)
+child-syn-wrt: exit(9)
+child-syn-wrt: exit(7)
+child-syn-wrt: exit(1)
+(syn-write) wait for child 2 of 10 returned 1 (expected 1)
+(syn-write) wait for child 3 of 10 returned 2 (expected 2)
+(syn-write) wait for child 4 of 10 returned 3 (expected 3)
+(syn-write) wait for child 5 of 10 returned 4 (expected 4)
+(syn-write) wait for child 6 of 10 returned 5 (expected 5)
+(syn-write) wait for child 7 of 10 returned 6 (expected 6)
+(syn-write) wait for child 8 of 10 returned 7 (expected 7)
+(syn-write) wait for child 9 of 10 returned 8 (expected 8)
+(syn-write) wait for child 10 of 10 returned 9 (expected 9)
+(syn-write) open "stuff"
+(syn-write) read "stuff"
+(syn-write) end
+syn-write: exit(0)
 Execution of 'syn-write' complete.
-Timer: 67 ticks
-Thread: 38 idle ticks, 25 kernel ticks, 4 user ticks
+Timer: 72 ticks
+Thread: 39 idle ticks, 24 kernel ticks, 9 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 148 reads, 512 writes
+hd0:1: 658 reads, 522 writes
 hd1:0: 226 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2872 characters output
+Console: 2414 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

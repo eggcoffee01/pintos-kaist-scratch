@@ -29,13 +29,16 @@ bool
 anon_initializer (struct page *page, enum vm_type type, void *kva) {
 	/* Set up the handler */
 	page->operations = &anon_ops;
-	
+	enum vm_type newtype = page->uninit.type;
+
 	struct anon_page *anon_page = &page->anon;
+	page->anon.type = newtype;
 }
 
 /* Swap in the page by read contents from the swap disk. */
 static bool
 anon_swap_in (struct page *page, void *kva) {
+
 	struct anon_page *anon_page = &page->anon;
 }
 
@@ -49,4 +52,7 @@ anon_swap_out (struct page *page) {
 static void
 anon_destroy (struct page *page) {
 	struct anon_page *anon_page = &page->anon;
+	palloc_free_page(page->frame->kva);
+	pml4_clear_page(thread_current()->pml4, page->va);
+	return;
 }

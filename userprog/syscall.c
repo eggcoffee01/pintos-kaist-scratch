@@ -36,6 +36,8 @@ int write (int fd, const void *buffer, unsigned size);
 void seek (int fd, unsigned position);
 unsigned tell (int fd);
 void close (int fd);
+void *mmap (void *addr, size_t length, int writable, int fd, off_t offset);
+void munmap (void *addr);
 int add_file(struct file* f);
 struct file *get_file(int fd);
 void check_ptr(void *ptr);
@@ -70,6 +72,7 @@ syscall_init (void) {
 void
 syscall_handler (struct intr_frame *f UNUSED) {
 	int number = f->R.rax;
+	thread_current()->rsp = f->rsp;
 	switch (number)
 	{
 		case SYS_HALT:
@@ -113,7 +116,13 @@ syscall_handler (struct intr_frame *f UNUSED) {
 			break;
 		case SYS_CLOSE:
 			close(f->R.rdi);
-			break;  
+			break;
+		case SYS_MMAP:
+			f->R.rax = mmap(f->R.rdi, f->R.rsi, f->R.rdx, f->R.r10, f->R.r8);
+			break; 
+		case SYS_MUNMAP:
+			munmap(f->R.rdi);
+			break; 
 		default:
 			break;
 	}
@@ -157,14 +166,11 @@ bool remove (const char *file){
 int open (const char *file){
 	check_ptr(file);
 	if(file[0] == '\0') return -1;
-
 	struct file *f = filesys_open(file);
 	if(f == NULL) return -1;
-
 	int fd = add_file(f);
 	if(fd == -1)
 		file_close(f);
-
 	return fd;
 }
 int filesize (int fd){
@@ -174,6 +180,8 @@ int filesize (int fd){
 int read (int fd, void *buffer, unsigned size){
 	if(check_fd(fd)) return -1;
 	check_ptr(buffer);
+
+	if(pml4_get_page(thread_current()->pml4, buffer) != NULL && !is_writable(pml4e_walk(thread_current()->pml4, buffer, 0))) exit(-1);
 	
 	if(fd == 0){
 		for(int i = 0; i < size; i++){
@@ -185,13 +193,11 @@ int read (int fd, void *buffer, unsigned size){
 
 	struct file *f = get_file(fd);
 	if(f == NULL) return -1;
-
 	return file_read(f, buffer, size);
 }
 int write (int fd, const void *buffer, unsigned size){
 	if(check_fd(fd)) return -1;
 	check_ptr(buffer);
-
 	if(fd == 1){
 		putbuf(buffer, size);
 		return size;
@@ -203,10 +209,12 @@ int write (int fd, const void *buffer, unsigned size){
 	return file_write(f, buffer, size);
 }
 void seek (int fd, unsigned position){
+	if(check_fd(fd)) return -1;
 	struct file *f = get_file(fd);
 	file_seek(f, position);
 }
 unsigned tell (int fd){
+	if(check_fd(fd)) return -1;
 	struct file *f = get_file(fd);
 	return file_tell(f);
 }
@@ -217,6 +225,23 @@ void close (int fd){
 
 	file_close(f);
 	thread_current()->fdt[fd] = NULL;
+}
+
+
+void *mmap (void *addr, size_t length, int writable, int fd, off_t offset){
+	if(check_fd(fd)) return -1;
+	if(addr == 0 || length == 0 || ((uint64_t)addr % 8 != 0)) return 0;
+	if(spt_find_page(&thread_current()->spt, pg_round_down(addr)) != NULL) return 0;
+	
+	struct file *f = get_file(fd);
+	if(f == NULL) return 0;
+	if((filesize(fd) < (offset+length)) && (filesize(fd) > PGSIZE)) return 0;
+	
+	return do_mmap(pg_round_down(addr), length, writable, f, offset);
+}
+
+void munmap (void *addr){
+
 }
 
 int add_file(struct file* f){
@@ -235,12 +260,12 @@ struct file *get_file(int fd){
 }
 
 void check_ptr(void *ptr){
-	if(ptr == NULL || !is_user_vaddr(ptr) ) exit(-1);
-	// || spt_find_page(&thread_current()->spt, pg_round_down(ptr)) == NULL
+	if(ptr == NULL || !is_user_vaddr(ptr)) exit(-1);
 
 }
 
 bool check_fd(int fd){
-	if(fd < 0 || maxfd <= fd) return true;
+	if((fd < 0 || maxfd <= fd)) return true;
+	if(fd > 2 && thread_current()->fdt[fd] == NULL) return true;
 	return false;
 }
