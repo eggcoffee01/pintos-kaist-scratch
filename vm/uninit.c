@@ -28,7 +28,7 @@ uninit_new (struct page *page, void *va, vm_initializer *init,
 		enum vm_type type, void *aux,
 		bool (*initializer)(struct page *, enum vm_type, void *)) {
 	ASSERT (page != NULL);
-
+	
 	*page = (struct page) {
 		.operations = &uninit_ops,
 		.va = va,
@@ -63,5 +63,4 @@ static void
 uninit_destroy (struct page *page) {
 	struct uninit_page *uninit UNUSED = &page->uninit;
 	free(uninit->aux);
-	return;
 }

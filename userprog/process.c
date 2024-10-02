@@ -19,6 +19,7 @@
 #include "threads/mmu.h"
 #include "threads/vaddr.h"
 #include "intrinsic.h"
+#include "hash.h"
 #ifdef VM
 #include "vm/vm.h"
 #endif
@@ -215,7 +216,6 @@ process_exec (void *f_name) {
 	palloc_free_page (file_name);
 	if (!success)
 		return -1;
-	
 	/* Start switched process. */
 	do_iret (&_if);
 	NOT_REACHED ();
@@ -279,22 +279,20 @@ process_exit (void) {
 	if(curr->exec_file != NULL) 
 		file_close(curr->exec_file);
 		
+	
+	process_cleanup ();
 	sema_up(&curr->wait_sema);
 
 	sema_down(&curr->synch_sema);
-	
-	process_cleanup ();
 }
 
 /* Free the current process's resources. */
 static void
 process_cleanup (void) {
 	struct thread *curr = thread_current ();
-
 #ifdef VM
 	supplemental_page_table_kill (&curr->spt);
 #endif
-
 	uint64_t *pml4;
 	/* Destroy the current process's page directory and switch back
 	 * to the kernel-only page directory. */
@@ -698,7 +696,6 @@ lazy_load_segment (struct page *page, void *aux) {
 		return false;
 	}
 	memset(page->frame->kva + l->page_read_bytes, 0, l->page_zero_bytes);
-	
 	
 	return true;
 }

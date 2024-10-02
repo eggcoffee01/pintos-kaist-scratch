@@ -1,12 +1,1 @@
-FAIL
-Kernel panic in run: PANIC at ../../vm/file.c:72 in do_mmap(): assertion `offset % PGSIZE == 0' failed.
-Call stack: 0x8004218334 0x8004221e1b 0x800421dc8a 0x800421d561 0x800421d1d2 0x400186 0x400c5c 0x400ca5
-Translation of call stack:
-0x0000008004218334: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221e1b: do_mmap (vm/file.c:73)
-0x000000800421dc8a: mmap (userprog/syscall.c:241)
-0x000000800421d561: syscall_handler (userprog/syscall.c:121)
-0x000000800421d1d2: no_sti (userprog/syscall-entry.o:?)
-0x0000000000400186: (unknown)
-0x0000000000400c5c: (unknown)
-0x0000000000400ca5: (unknown)
+PASS

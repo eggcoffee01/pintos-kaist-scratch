@@ -32,16 +32,27 @@ child-sort: exit(123)
 (page-merge-par) sort chunk 7
 child-sort: exit(123)
 (page-merge-par) wait for child 0
-(page-merge-par) open "buf0": FAILED
-page-merge-par: exit(1)
+child-sort: exit(123)
+(page-merge-par) wait for child 1
+(page-merge-par) wait for child 2
+(page-merge-par) wait for child 3
+(page-merge-par) wait for child 4
+(page-merge-par) wait for child 5
+(page-merge-par) wait for child 6
+(page-merge-par) wait for child 7
+(page-merge-par) merge
+(page-merge-par) verify
+(page-merge-par) success, buf_idx=1,048,576
+(page-merge-par) end
+page-merge-par: exit(0)
 Execution of 'page-merge-par' complete.
-Timer: 160 ticks
-Thread: 75 idle ticks, 24 kernel ticks, 61 user ticks
+Timer: 181 ticks
+Thread: 96 idle ticks, 26 kernel ticks, 59 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 2443 reads, 6458 writes
+hd0:1: 4855 reads, 6714 writes
 hd1:0: 218 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1520 characters output
+Console: 1855 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

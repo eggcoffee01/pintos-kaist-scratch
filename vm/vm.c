@@ -5,7 +5,14 @@
 #include "threads/mmu.h"
 #include "string.h"
 #include "userprog/process.h"
+#include "filesys/file.h"
 
+struct file {
+	struct inode *inode;        /* File's inode. */
+	off_t pos;                  /* Current position. */
+	bool deny_write;            /* Has file_deny_write() been called? */
+	
+};
 /* Initializes the virtual memory subsystem by invoking each subsystem's
  * intialize codes. */
 void
@@ -55,8 +62,7 @@ vm_alloc_page_with_initializer (enum vm_type type, void *upage, bool writable,
 		 * TODO: and then create "uninit" page struct by calling uninit_new. You
 		 * TODO: should modify the field after calling the uninit_new. */
 		struct page *p = malloc(sizeof (struct page));
-		
-		bool (*initializer)(struct page *, enum vm_type, void *) = NULL;
+		bool (*initializer)(struct page *, enum vm_type, void *);
 		
 		switch (VM_TYPE(type))
 		{
@@ -164,13 +170,14 @@ vm_try_handle_fault (struct intr_frame *f UNUSED, void *addr UNUSED,
 	struct supplemental_page_table *spt UNUSED = &thread_current ()->spt;
 	struct page *page = NULL;
 	uintptr_t rsp = user ? f->rsp : thread_current()->rsp;
+
 	page = spt_find_page(spt, addr);
 	if(page == NULL) {
 		if(pg_round_down(rsp) <= addr && is_user_vaddr(addr) && addr >= (USER_STACK - 1048576) && addr <= USER_STACK){
 			vm_stack_growth(addr);
 			return true;
 		}
-	return false;
+		return false;
 	}
 	if(write && !page->writable) return false;
 
@@ -234,7 +241,7 @@ void spt_copy(struct hash_elem *e,void *aux UNUSED){
 			anon_copy(p);
 			break;
 		case VM_FILE:
-			/* code */
+			file_copy(p);
 			break;
 
 		default:
@@ -249,7 +256,7 @@ void uninit_copy(struct page *p){
 	vm_initializer *init = p->uninit.init;
 	void *aux = malloc(sizeof(struct load_aux));
 	memcpy(aux, p->uninit.aux,sizeof(struct load_aux));
-
+	
 	vm_alloc_page_with_initializer(type, upage, writable, init, aux);
 }
 void anon_copy(struct page *p){
@@ -265,7 +272,18 @@ void anon_copy(struct page *p){
 	
 }
 void file_copy(struct page *p){
-	//todo file-backed copy
+	enum vm_type type = p->anon.type;
+	void *upage = p->va;
+	bool writable = p->writable;
+
+	vm_alloc_page_with_initializer(type, upage, writable, NULL, NULL);
+	struct page *newpage = spt_find_page(&thread_current()->spt, upage);
+	vm_do_claim_page(newpage);
+	memcpy(newpage->frame->kva, p->frame->kva, PGSIZE);
+	newpage->file.aux = malloc(sizeof(struct load_aux));
+	memcpy(newpage->file.aux, p->file.aux, sizeof(struct load_aux));
+	newpage->file.aux->file = malloc(sizeof(struct file));
+	newpage->file.aux->file = file_reopen(p->file.aux->file);
 }
 
 /* Free the resource hold by the supplemental page table */
@@ -273,8 +291,8 @@ void
 supplemental_page_table_kill (struct supplemental_page_table *spt UNUSED) {
 	/* TODO: Destroy all the supplemental_page_table hold by thread and
 	 * TODO: writeback all the modified contents to the storage. */
-	hash_clear(&spt->table, spt_kill);
-
+	if(!hash_empty(&spt->table))
+		hash_clear(&spt->table, spt_kill);
 }
 
 void spt_kill(struct hash_elem *e,void *aux UNUSED){

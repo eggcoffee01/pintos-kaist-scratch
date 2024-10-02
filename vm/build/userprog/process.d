@@ -18,4 +18,4 @@ userprog/process.o: ../../userprog/process.c \
  ../../include/filesys/directory.h ../../include/devices/disk.h \
  ../../include/filesys/filesys.h ../../include/threads/flags.h \
  ../../include/threads/init.h ../../include/intrinsic.h \
- ../../include/threads/mmu.h
+ ../../include/threads/mmu.h ../../include/lib/kernel/hash.h

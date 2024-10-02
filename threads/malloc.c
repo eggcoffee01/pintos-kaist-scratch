@@ -86,11 +86,10 @@ malloc (size_t size) {
 	struct desc *d;
 	struct block *b;
 	struct arena *a;
-
 	/* A null pointer satisfies a request for 0 bytes. */
 	if (size == 0)
 		return NULL;
-
+	
 	/* Find the smallest descriptor that satisfies a SIZE-byte
 	   request. */
 	for (d = descs; d < descs + desc_cnt; d++)
@@ -101,6 +100,7 @@ malloc (size_t size) {
 		   Allocate enough pages to hold SIZE plus an arena. */
 		size_t page_cnt = DIV_ROUND_UP (size + sizeof *a, PGSIZE);
 		a = palloc_get_multiple (0, page_cnt);
+		if (a == NULL)
 		if (a == NULL)
 			return NULL;
 

@@ -52,13 +52,13 @@ child-syn-read: exit(5)
 (syn-read) end
 syn-read: exit(0)
 Execution of 'syn-read' complete.
-Timer: 183 ticks
-Thread: 88 idle ticks, 27 kernel ticks, 68 user ticks
+Timer: 184 ticks
+Thread: 103 idle ticks, 26 kernel ticks, 55 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 10928 reads, 504 writes
 hd1:0: 225 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2431 characters output
+Console: 2432 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off...

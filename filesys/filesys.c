@@ -7,10 +7,10 @@
 #include "filesys/inode.h"
 #include "filesys/directory.h"
 #include "devices/disk.h"
+#include "threads/synch.h"
 
 /* The disk that contains the file system. */
 struct disk *filesys_disk;
-
 static void do_format (void);
 
 /* Initializes the file system module.
@@ -68,7 +68,7 @@ filesys_create (const char *name, off_t initial_size) {
 	if (!success && inode_sector != 0)
 		free_map_release (inode_sector, 1);
 	dir_close (dir);
-
+	
 	return success;
 }
 
@@ -85,7 +85,8 @@ filesys_open (const char *name) {
 	if (dir != NULL)
 		dir_lookup (dir, name, &inode);
 	dir_close (dir);
-
+	
+	
 	return file_open (inode);
 }
 
@@ -95,10 +96,12 @@ filesys_open (const char *name) {
  * or if an internal memory allocation fails. */
 bool
 filesys_remove (const char *name) {
+	// lock_acquire(&filesys_lock);
 	struct dir *dir = dir_open_root ();
 	bool success = dir != NULL && dir_remove (dir, name);
 	dir_close (dir);
 
+	// lock_release(&filesys_lock);
 	return success;
 }
 

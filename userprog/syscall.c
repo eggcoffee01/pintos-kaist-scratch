@@ -66,6 +66,7 @@ syscall_init (void) {
 	 * mode stack. Therefore, we masked the FLAG_FL. */
 	write_msr(MSR_SYSCALL_MASK,
 			FLAG_IF | FLAG_TF | FLAG_DF | FLAG_IOPL | FLAG_AC | FLAG_NT);
+
 }
 
 /* The main system call interface */
@@ -73,6 +74,7 @@ void
 syscall_handler (struct intr_frame *f UNUSED) {
 	int number = f->R.rax;
 	thread_current()->rsp = f->rsp;
+	// printf("syscall: %d tid: %d\n", number, thread_current()->tid);
 	switch (number)
 	{
 		case SYS_HALT:
@@ -166,6 +168,7 @@ bool remove (const char *file){
 int open (const char *file){
 	check_ptr(file);
 	if(file[0] == '\0') return -1;
+	
 	struct file *f = filesys_open(file);
 	if(f == NULL) return -1;
 	int fd = add_file(f);
@@ -174,29 +177,29 @@ int open (const char *file){
 	return fd;
 }
 int filesize (int fd){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	return file_length(get_file(fd));
 }
 int read (int fd, void *buffer, unsigned size){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	check_ptr(buffer);
 
 	if(pml4_get_page(thread_current()->pml4, buffer) != NULL && !is_writable(pml4e_walk(thread_current()->pml4, buffer, 0))) exit(-1);
-	
+
 	if(fd == 0){
 		for(int i = 0; i < size; i++){
 			((char*)buffer)[i] = input_getc();
 		}
 		return size;
 	}
-	else if(fd == 1) return -1;
+	else if(fd == 1) return 0;
 
 	struct file *f = get_file(fd);
-	if(f == NULL) return -1;
+	if(f == NULL) return 0;
 	return file_read(f, buffer, size);
 }
 int write (int fd, const void *buffer, unsigned size){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	check_ptr(buffer);
 	if(fd == 1){
 		putbuf(buffer, size);
@@ -205,23 +208,23 @@ int write (int fd, const void *buffer, unsigned size){
 	else if(fd == 0) return 0;
 
 	struct file *f = get_file(fd);
-	if(f == NULL) return -1;
+	if(f == NULL) return 0;
 	return file_write(f, buffer, size);
 }
 void seek (int fd, unsigned position){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	struct file *f = get_file(fd);
 	file_seek(f, position);
 }
 unsigned tell (int fd){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	struct file *f = get_file(fd);
 	return file_tell(f);
 }
 void close (int fd){
-	if(check_fd(fd)) return -1;
+	if(check_fd(fd)) return 0;
 	struct file *f = get_file(fd);
-	if(f == NULL) return -1;
+	if(f == NULL) return 0;
 
 	file_close(f);
 	thread_current()->fdt[fd] = NULL;
@@ -229,19 +232,19 @@ void close (int fd){
 
 
 void *mmap (void *addr, size_t length, int writable, int fd, off_t offset){
-	if(check_fd(fd)) return -1;
-	if(addr == 0 || length == 0 || ((uint64_t)addr % 8 != 0)) return 0;
+	if(check_fd(fd)) return 0;
+	if(addr == 0 || length == 0 || ((uint64_t)addr % 8 != 0) || (offset % 8) != 0) return 0;
+	if((addr+length) < addr || is_kernel_vaddr(addr)) return 0;
 	if(spt_find_page(&thread_current()->spt, pg_round_down(addr)) != NULL) return 0;
 	
 	struct file *f = get_file(fd);
 	if(f == NULL) return 0;
-	if((filesize(fd) < (offset+length)) && (filesize(fd) > PGSIZE)) return 0;
-	
+
 	return do_mmap(pg_round_down(addr), length, writable, f, offset);
 }
 
 void munmap (void *addr){
-
+	do_munmap(addr);
 }
 
 int add_file(struct file* f){
